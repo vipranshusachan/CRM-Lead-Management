@@ -32,12 +32,20 @@ class Request
 
         $rawUri = urldecode($rawUri);
 
-        // Normalize base path from SCRIPT_NAME (e.g., /PROJECT A/index.php or /PROJECT A/public/index.php)
+        // Normalize base path from SCRIPT_NAME
         $scriptName = urldecode($_SERVER['SCRIPT_NAME'] ?? '');
         $baseFolder = rtrim(str_replace('\\', '/', dirname($scriptName)), '/');
 
+        // If baseFolder contains /public, get root parent as well
+        $parentFolder = '';
+        if (str_ends_with($baseFolder, '/public')) {
+            $parentFolder = substr($baseFolder, 0, -7);
+        }
+
         if ($baseFolder !== '' && $baseFolder !== '/' && str_starts_with($rawUri, $baseFolder)) {
             $rawUri = substr($rawUri, strlen($baseFolder));
+        } elseif ($parentFolder !== '' && str_starts_with($rawUri, $parentFolder)) {
+            $rawUri = substr($rawUri, strlen($parentFolder));
         }
 
         // Strip /public if URL contains /public prefix
