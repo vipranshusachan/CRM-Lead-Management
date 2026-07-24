@@ -1,12 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 /**
- * Root Landing Redirect
- * Redirects visitors accessing the root folder directly to the public CRM login page.
+ * Production Root Entry Point
+ * Directly invokes the application front controller.
  */
 
-$uri = $_SERVER['REQUEST_URI'] ?? '';
-$baseUrl = rtrim(dirname($_SERVER['SCRIPT_NAME'] ?? ''), '/\\');
-
-header("Location: " . $baseUrl . "/public/login");
-exit;
+require_once __DIR__ . '/public/index.php';
