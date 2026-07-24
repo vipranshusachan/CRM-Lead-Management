@@ -32,15 +32,15 @@ class Request
 
         $rawUri = urldecode($rawUri);
 
-        // Normalize script name directory
-        $scriptDir = urldecode(dirname($_SERVER['SCRIPT_NAME'] ?? ''));
-        $scriptDir = str_replace('\\', '/', $scriptDir);
+        // Normalize base path from SCRIPT_NAME (e.g., /PROJECT A/index.php or /PROJECT A/public/index.php)
+        $scriptName = urldecode($_SERVER['SCRIPT_NAME'] ?? '');
+        $baseFolder = rtrim(str_replace('\\', '/', dirname($scriptName)), '/');
 
-        if ($scriptDir !== '/' && $scriptDir !== '.' && str_starts_with($rawUri, $scriptDir)) {
-            $rawUri = substr($rawUri, strlen($scriptDir));
+        if ($baseFolder !== '' && $baseFolder !== '/' && str_starts_with($rawUri, $baseFolder)) {
+            $rawUri = substr($rawUri, strlen($baseFolder));
         }
 
-        // If base folder was /PROJECT A, also strip leading /public if rewrite happened
+        // Strip /public if URL contains /public prefix
         if (str_starts_with($rawUri, '/public')) {
             $rawUri = substr($rawUri, 7);
         }
