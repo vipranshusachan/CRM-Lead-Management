@@ -77,9 +77,43 @@ class ModuleController
         $user = Auth::user();
         $restrictedUserId = Auth::isMember() ? (int) $user['id'] : null;
         $stats = Lead::getStats($restrictedUserId);
+        $allLeads = Lead::all($restrictedUserId);
+        $members = Auth::isAdmin() ? User::allMembers() : [];
+
+        // Sources breakdown
+        $sources = [];
+        foreach ($allLeads as $l) {
+            $src = $l['source'] ?? 'Website';
+            $sources[$src] = ($sources[$src] ?? 0) + 1;
+        }
+
+        // Member performance breakdown
+        $memberStats = [];
+        if (Auth::isAdmin()) {
+            foreach ($members as $m) {
+                $mLeads = array_filter($allLeads, fn($ld) => (int)($ld['assigned_to'] ?? 0) === (int)$m['id']);
+                $mWon = array_filter($mLeads, fn($ld) => $ld['status'] === 'Won');
+                $mLost = array_filter($mLeads, fn($ld) => $ld['status'] === 'Lost');
+                $totalCount = count($mLeads);
+                $wonCount = count($mWon);
+
+                $memberStats[] = [
+                    'id' => $m['id'],
+                    'name' => $m['name'],
+                    'email' => $m['email'],
+                    'assigned_count' => $totalCount,
+                    'won_count' => $wonCount,
+                    'lost_count' => count($mLost),
+                    'conversion_rate' => $totalCount > 0 ? round(($wonCount / $totalCount) * 100, 1) : 0
+                ];
+            }
+        }
 
         $this->response->render('reports.index', [
-            'stats' => $stats
+            'stats' => $stats,
+            'leads' => $allLeads,
+            'sources' => $sources,
+            'memberStats' => $memberStats
         ]);
     }
 
