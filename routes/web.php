@@ -33,6 +33,13 @@ $router->group(['middleware' => [AuthMiddleware::class]], function ($router) {
     $router->post('/leads/{id}/status', [LeadController::class, 'updateStatus']);
     $router->post('/leads/{id}/notes', [LeadController::class, 'addNote']);
 
+    // Pipeline, Activities, Notes, Reports, Settings Modules
+    $router->get('/pipeline', [\App\Controllers\ModuleController::class, 'pipeline']);
+    $router->get('/activities', [\App\Controllers\ModuleController::class, 'activities']);
+    $router->get('/notes', [\App\Controllers\ModuleController::class, 'notes']);
+    $router->get('/reports', [\App\Controllers\ModuleController::class, 'reports']);
+    $router->get('/settings', [\App\Controllers\ModuleController::class, 'settings']);
+
     // Admin Only Lead Routes
     $router->group(['middleware' => [AdminMiddleware::class]], function ($router) {
         $router->post('/leads/{id}/assign', [LeadController::class, 'assign']);

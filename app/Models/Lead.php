@@ -18,6 +18,23 @@ class Lead
         'Lost'
     ];
 
+    public static function all(?int $assignedUserOnly = null): array
+    {
+        $sql = "SELECT l.*, 
+                       u_assigned.name as assigned_to_name,
+                       u_creator.name as created_by_name
+                FROM leads l
+                LEFT JOIN users u_assigned ON l.assigned_to = u_assigned.id
+                LEFT JOIN users u_creator ON l.created_by = u_creator.id";
+        $params = [];
+        if ($assignedUserOnly !== null) {
+            $sql .= " WHERE l.assigned_to = ?";
+            $params[] = $assignedUserOnly;
+        }
+        $sql .= " ORDER BY l.created_at DESC";
+        return Database::query($sql, $params);
+    }
+
     public static function find(int $id): ?array
     {
         $sql = "SELECT l.*, 
