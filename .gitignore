@@ -1,0 +1,28 @@
+# Vendor & Dependency Directories
+/vendor/
+/node_modules/
+
+# Environment & Secret Files
+.env
+.env.local
+.env.production
+*.env
+
+# Operating System & IDE Files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Storage & Runtime Logs
+storage/logs/*.log
+storage/cache/*
+!storage/cache/.gitkeep
+!storage/logs/.gitkeep
+
+# Temporary & Database Dump Files
+*.tmp
+*.bak
+*.sql.gz
