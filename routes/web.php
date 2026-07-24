@@ -9,6 +9,9 @@ use App\Middleware\AdminMiddleware;
 
 /** @var App\Core\Router $router */
 
+// Public Landing Page
+$router->get('/', [DashboardController::class, 'landing']);
+
 // Guest Routes
 $router->get('/login', [AuthController::class, 'showLogin']);
 $router->post('/login', [AuthController::class, 'login']);
@@ -18,7 +21,6 @@ $router->post('/logout', [AuthController::class, 'logout']);
 // Authenticated Routes
 $router->group(['middleware' => [AuthMiddleware::class]], function ($router) {
     // Dashboard
-    $router->get('/', [DashboardController::class, 'index']);
     $router->get('/dashboard', [DashboardController::class, 'index']);
 
     // Leads

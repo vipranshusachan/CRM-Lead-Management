@@ -20,6 +20,11 @@ class DashboardController
         $this->response = new Response();
     }
 
+    public function landing(Request $request): void
+    {
+        $this->response->render('landing');
+    }
+
     public function index(Request $request): void
     {
         $user = Auth::user();
