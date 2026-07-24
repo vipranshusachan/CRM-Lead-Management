@@ -13,9 +13,11 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // 2. Mobile Sidebar Drawer Toggle
+    // 2. Mobile Sidebar Drawer & Desktop Collapse Toggle
     const menuToggleBtn = document.getElementById('menuToggleBtn');
+    const sidebarCollapseBtn = document.getElementById('sidebarCollapseBtn');
     const sidebar = document.querySelector('.sidebar');
+    const mainContent = document.querySelector('.main-content');
 
     if (menuToggleBtn && sidebar) {
         menuToggleBtn.addEventListener('click', () => {
@@ -23,7 +25,69 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // 3. Quick-Fill Demo Credentials (on Login Page)
+    if (sidebarCollapseBtn && sidebar && mainContent) {
+        sidebarCollapseBtn.addEventListener('click', () => {
+            sidebar.classList.toggle('collapsed');
+            mainContent.classList.toggle('expanded');
+        });
+    }
+
+    // 3. Global Search (Ctrl + K) Keyboard Shortcut
+    const globalSearchTrigger = document.getElementById('globalSearchTrigger');
+    const searchModal = document.getElementById('searchModal');
+    const globalSearchInput = document.getElementById('globalSearchInput');
+
+    if (globalSearchTrigger) {
+        globalSearchTrigger.addEventListener('click', () => {
+            openModal('searchModal');
+            if (globalSearchInput) globalSearchInput.focus();
+        });
+    }
+
+    document.addEventListener('keydown', (e) => {
+        if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+            e.preventDefault();
+            openModal('searchModal');
+            if (globalSearchInput) globalSearchInput.focus();
+        }
+        if (e.key === 'Escape') {
+            closeModal('searchModal');
+            closeDropdowns();
+        }
+    });
+
+    // 4. Dropdowns (Notifications & Profile)
+    const notificationsBtn = document.getElementById('notificationsBtn');
+    const notificationDropdown = document.getElementById('notificationDropdown');
+    const userProfileBtn = document.getElementById('userProfileBtn');
+    const profileDropdown = document.getElementById('profileDropdown');
+
+    function closeDropdowns() {
+        if (notificationDropdown) notificationDropdown.classList.remove('show');
+        if (profileDropdown) profileDropdown.classList.remove('show');
+    }
+
+    if (notificationsBtn && notificationDropdown) {
+        notificationsBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            if (profileDropdown) profileDropdown.classList.remove('show');
+            notificationDropdown.classList.toggle('show');
+        });
+    }
+
+    if (userProfileBtn && profileDropdown) {
+        userProfileBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            if (notificationDropdown) notificationDropdown.classList.remove('show');
+            profileDropdown.classList.toggle('show');
+        });
+    }
+
+    document.addEventListener('click', () => {
+        closeDropdowns();
+    });
+
+    // 5. Quick-Fill Demo Credentials (on Login Page)
     window.fillCredentials = function(email, password) {
         const emailInput = document.getElementById('email');
         const passwordInput = document.getElementById('password');
@@ -34,7 +98,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
-    // 4. Modal Handlers
+    // 6. Modal Handlers
     window.openModal = function(modalId) {
         const modal = document.getElementById(modalId);
         if (modal) {
@@ -57,7 +121,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // 5. Toast Notifications
+    // 7. Toast Notifications
     window.showToast = function(message) {
         let container = document.getElementById('toastContainer');
         if (!container) {
