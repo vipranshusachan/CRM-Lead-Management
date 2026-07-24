@@ -1,15 +1,19 @@
 <?php $currentUser = \App\Core\Auth::user(); ?>
 <aside class="sidebar">
+    <!-- LOGO AREA (72px Height) -->
     <div class="sidebar-header">
-        <div class="logo-badge">
-            <i class="fa-solid fa-chart-line"></i>
+        <div class="logo-area">
+            <div class="logo-badge">
+                <i class="fa-solid fa-chart-line"></i>
+            </div>
+            <span class="logo-title">LeadFlow CRM</span>
         </div>
-        <span class="logo-title">LeadFlow CRM</span>
-        <button type="button" class="sidebar-collapse-btn" id="sidebarCollapseBtn" title="Toggle Sidebar (260px / 72px)">
+        <button type="button" class="sidebar-collapse-btn" id="sidebarCollapseBtn" title="Toggle Sidebar">
             <i class="fa-solid fa-chevron-left"></i>
         </button>
     </div>
 
+    <!-- NAVIGATION MENU -->
     <nav class="sidebar-nav">
         <!-- CRM SECTION -->
         <div class="nav-section-title">CRM</div>
@@ -63,25 +67,30 @@
         </a>
     </nav>
 
-    <!-- PROFESSIONAL USER PROFILE CARD & VERSION -->
+    <!-- BOTTOM USER ACCOUNT CARD & VERSION -->
     <?php if ($currentUser): ?>
     <div class="sidebar-user-footer">
-        <div class="user-card-inner">
-            <div class="user-avatar-badge" style="width: 36px; height: 36px; font-size: 0.85rem;">
-                <?= strtoupper(substr($currentUser['name'], 0, 1)) ?>
-            </div>
-            <div class="sidebar-user-info">
-                <div class="sidebar-user-name"><?= e($currentUser['name']) ?></div>
-                <div style="display: flex; align-items: center; gap: 0.35rem; margin-top: 0.1rem;">
-                    <span class="online-indicator" title="Online"></span>
-                    <span class="sidebar-user-role"><?= $currentUser['role'] ?></span>
+        <div class="user-account-card">
+            <div class="user-card-header">
+                <div class="user-avatar-large">
+                    <?= strtoupper(substr($currentUser['name'], 0, 1)) ?>
+                </div>
+                <div class="user-details">
+                    <div class="user-name"><?= e($currentUser['name']) ?></div>
+                    <div class="user-email"><?= e($currentUser['email']) ?></div>
+                    <span class="badge-role <?= $currentUser['role'] === 'ADMIN' ? 'badge-admin' : 'badge-member' ?>" style="margin-top: 0.35rem; display: inline-block;">
+                        <?= $currentUser['role'] ?>
+                    </span>
                 </div>
             </div>
-            <a href="<?= base_url('/logout') ?>" class="btn-ghost-sm" title="Sign Out">
-                <i class="fa-solid fa-right-from-bracket"></i>
-            </a>
+            <div class="user-card-divider"></div>
+            <div class="user-card-actions">
+                <a href="<?= base_url('/settings') ?>" class="user-action-btn"><i class="fa-regular fa-user"></i> Profile</a>
+                <a href="<?= base_url('/settings') ?>" class="user-action-btn"><i class="fa-solid fa-gear"></i> Settings</a>
+                <a href="<?= base_url('/logout') ?>" class="user-action-btn danger"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
+            </div>
         </div>
-        <div class="sidebar-version-badge">CRM v1.0</div>
+        <div class="sidebar-version-bottom">CRM v1.0</div>
     </div>
     <?php endif; ?>
 </aside>
