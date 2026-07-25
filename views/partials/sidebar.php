@@ -1,9 +1,9 @@
 <?php $currentUser = \App\Core\Auth::user(); ?>
 <aside class="sidebar">
-    <!-- LOGO AREA (72px Height) -->
-    <div class="sidebar-header">
+    <!-- LOGO AREA (64px Height) -->
+    <div class="sidebar-header" style="height: 64px;">
         <div class="logo-area">
-            <div class="logo-badge">
+            <div class="logo-badge" style="width: 32px; height: 32px;">
                 <i class="fa-solid fa-chart-line"></i>
             </div>
             <span class="logo-title">LeadFlow CRM</span>
@@ -13,7 +13,7 @@
         </button>
     </div>
 
-    <!-- NAVIGATION MENU -->
+    <!-- NAVIGATION MENU (Compact Spacing - Zero Scroll) -->
     <nav class="sidebar-nav">
         <!-- CRM SECTION -->
         <div class="nav-section-title">CRM</div>
@@ -67,28 +67,20 @@
         </a>
     </nav>
 
-    <!-- BOTTOM USER ACCOUNT CARD & VERSION -->
+    <!-- COMPACT BOTTOM USER ACCOUNT CARD -->
     <?php if ($currentUser): ?>
     <div class="sidebar-user-footer">
         <div class="user-account-card">
-            <div class="user-card-header">
-                <div class="user-avatar-large">
-                    <?= strtoupper(substr($currentUser['name'], 0, 1)) ?>
-                </div>
-                <div class="user-details">
-                    <div class="user-name"><?= e($currentUser['name']) ?></div>
-                    <div class="user-email"><?= e($currentUser['email']) ?></div>
-                    <span class="badge-role <?= $currentUser['role'] === 'ADMIN' ? 'badge-admin' : 'badge-member' ?>" style="margin-top: 0.35rem; display: inline-block;">
-                        <?= $currentUser['role'] ?>
-                    </span>
-                </div>
+            <div class="user-avatar-large">
+                <?= strtoupper(substr($currentUser['name'], 0, 1)) ?>
             </div>
-            <div class="user-card-divider"></div>
-            <div class="user-card-actions">
-                <a href="<?= base_url('/settings') ?>" class="user-action-btn"><i class="fa-regular fa-user"></i> Profile</a>
-                <a href="<?= base_url('/settings') ?>" class="user-action-btn"><i class="fa-solid fa-gear"></i> Settings</a>
-                <a href="<?= base_url('/logout') ?>" class="user-action-btn danger"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
+            <div class="user-details">
+                <div class="user-name"><?= e($currentUser['name']) ?></div>
+                <div class="user-email"><?= e($currentUser['email']) ?></div>
             </div>
+            <a href="<?= base_url('/logout') ?>" class="user-logout-quick" title="Logout">
+                <i class="fa-solid fa-right-from-bracket"></i>
+            </a>
         </div>
         <div class="sidebar-version-bottom">CRM v1.0</div>
     </div>
