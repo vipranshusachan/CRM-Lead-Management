@@ -75,27 +75,31 @@ $title = "LeadFlow CRM - Manage Every Lead. Close More Deals.";
             align-items: center;
             justify-content: space-between;
             height: 72px;
+            gap: 0.5rem;
         }
 
         .logo {
             display: flex;
             align-items: center;
-            gap: 0.6rem;
+            gap: 0.5rem;
             font-weight: 700;
-            font-size: 1.2rem;
+            font-size: 1.15rem;
             color: var(--text-primary);
+            white-space: nowrap;
+            flex-shrink: 0;
         }
 
         .logo-icon {
-            width: 34px;
-            height: 34px;
+            width: 32px;
+            height: 32px;
             background-color: var(--primary);
             color: white;
             border-radius: 8px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1rem;
+            font-size: 0.95rem;
+            flex-shrink: 0;
         }
 
         .nav-links {
@@ -119,7 +123,28 @@ $title = "LeadFlow CRM - Manage Every Lead. Close More Deals.";
         .nav-actions {
             display: flex;
             align-items: center;
-            gap: 1rem;
+            gap: 0.5rem;
+            flex-shrink: 0;
+        }
+
+        /* Responsive Navbar Modifications */
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 1rem;
+            }
+            .nav-links {
+                display: none;
+            }
+            .logo span {
+                font-size: 1rem;
+            }
+            .btn {
+                padding: 0.5rem 0.85rem !important;
+                font-size: 0.85rem !important;
+            }
+            .btn-text {
+                display: none;
+            }
         }
 
         /* Buttons */
